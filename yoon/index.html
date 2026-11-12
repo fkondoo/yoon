@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yoon – Le son du rap afro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Barre latérale (desktop) ===== -->
+  <aside class="sidebar">
+    <a href="#accueil" class="logo">Yoon</a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__item" data-nav="accueil" href="#accueil"><span data-icon="home"></span>Accueil</a>
+      <a class="nav__item" data-nav="recherche" href="#recherche"><span data-icon="search"></span>Recherche</a>
+      <a class="nav__item" data-nav="bibliotheque" href="#bibliotheque"><span data-icon="library"></span>Bibliothèque</a>
+      <a class="nav__item" data-nav="playlists" href="#playlists"><span data-icon="playlist"></span>Playlists</a>
+    </nav>
+  </aside>
+
+  <!-- ===== Barre du haut ===== -->
+  <header class="topbar">
+    <a href="#accueil" class="logo topbar__logo">Yoon</a>
+    <input id="topSearch" class="search" type="search" placeholder="Rechercher un titre, un rappeur…" aria-label="Rechercher">
+    <div class="avatar" aria-label="Profil">LG</div>
+  </header>
+
+  <main class="main">
+
+    <!-- 1. ACCUEIL -->
+    <section id="screen-accueil" class="screen" data-screen="accueil">
+      <div class="hero">
+        <h1>Le rap afro, sans filtre</h1>
+        <p>Rap Galsen, drill, trap et boom bap : les sons du continent, réunis au même endroit.</p>
+        <div><button id="heroPlay" class="btn btn--primary"><span data-icon="play"></span>Écouter</button></div>
+      </div>
+      <div class="section"><h2 class="section-title">Les sons du moment</h2><div class="row" id="rowAlbums"></div></div>
+      <div class="section"><h2 class="section-title">Rappeurs à suivre</h2><div class="row" id="rowRappers"></div></div>
+      <div class="section"><h2 class="section-title">Nouveautés Rap Galsen</h2><div class="row" id="rowGalsen"></div></div>
+      <div class="section"><h2 class="section-title">Freestyles et cyphers</h2><div class="row" id="rowFree"></div></div>
+      <div class="section"><h2 class="section-title">Récemment écoutés</h2><div class="songlist" id="listRecent"></div></div>
+    </section>
+
+    <!-- 2. RECHERCHE -->
+    <section id="screen-recherche" class="screen" data-screen="recherche">
+      <h1 class="page-title">Recherche</h1>
+      <input id="searchInput" class="search search--big" type="search" placeholder="Titre, rappeur ou album" aria-label="Rechercher">
+      <div id="browse">
+        <div class="section"><h2 class="section-title">Parcourir par pays</h2><div class="grid" id="tilesCountry"></div></div>
+        <div class="section"><h2 class="section-title">Parcourir par style</h2><div class="grid" id="tilesStyle"></div></div>
+      </div>
+      <div id="searchResults"></div>
+    </section>
+
+    <!-- 3. BIBLIOTHÈQUE -->
+    <section id="screen-bibliotheque" class="screen" data-screen="bibliotheque">
+      <h1 class="page-title">Bibliothèque</h1>
+      <div class="tabs">
+        <button class="tab" data-tab="titres">Titres</button>
+        <button class="tab" data-tab="albums">Albums</button>
+        <button class="tab" data-tab="rappeurs">Rappeurs</button>
+        <button class="tab" data-tab="styles">Styles</button>
+      </div>
+      <div id="chipsWrap">
+        <div class="chips" id="chipsCountry"></div>
+        <div class="chips" id="chipsStyle"></div>
+        <label class="sort">Trier par
+          <select id="sortSelect"><option value="title">Titre</option><option value="artist">Artiste</option><option value="duration">Durée</option></select>
+        </label>
+      </div>
+      <div id="libContent"></div>
+    </section>
+
+    <!-- 4. LECTEUR -->
+    <section id="screen-lecteur" class="screen" data-screen="lecteur">
+      <button class="btn btn--secondary" data-back aria-label="Retour"><span data-icon="back"></span>Retour</button>
+      <div class="player">
+        <div class="player__main">
+          <div class="player__cover" id="pCover"></div>
+          <h1 class="player__title" id="pTitle"></h1>
+          <p class="muted" id="pArtist"></p>
+          <div class="progress">
+            <span id="tCur">0:00</span>
+            <div class="bar" id="pBar"><div class="bar__fill"></div></div>
+            <span id="tDur">0:00</span>
+          </div>
+          <div class="controls">
+            <button class="btn btn--icon" id="btnShuffle" aria-label="Lecture aléatoire"><span data-icon="shuffle"></span></button>
+            <button class="btn btn--icon" id="btnPrev" aria-label="Précédent"><span data-icon="prev"></span></button>
+            <button class="btn btn--icon btn--play" data-toggle-play aria-label="Lecture"></button>
+            <button class="btn btn--icon" id="btnNext" aria-label="Suivant"><span data-icon="next"></span></button>
+            <button class="btn btn--icon" id="btnRepeat" data-mode="off" aria-label="Répéter"><span data-icon="repeat"></span></button>
+          </div>
+          <div class="player__extra">
+            <span data-icon="volume"></span>
+            <input id="vol" type="range" min="0" max="100" value="70" aria-label="Volume">
+            <button class="btn btn--icon like" data-like="1" data-like-cur aria-label="Aimer ce titre"><span data-icon="heart"></span></button>
+            <button class="btn btn--secondary" id="btnAddPl"><span data-icon="plus"></span>Ajouter à une playlist</button>
+          </div>
+        </div>
+        <div class="player__side">
+          <div class="tabs">
+            <button class="tab tab--active" data-ptab="queue">File d'attente</button>
+            <button class="tab" data-ptab="lyrics">Paroles</button>
+          </div>
+          <div class="songlist" id="queue"></div>
+          <div class="lyrics hidden" id="lyrics"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PLAYLISTS -->
+    <section id="screen-playlists" class="screen" data-screen="playlists">
+      <div id="plList">
+        <div class="page-head">
+          <h1 class="page-title">Playlists</h1>
+          <button class="btn btn--primary" id="btnCreate"><span data-icon="plus"></span>Créer une playlist</button>
+        </div>
+        <div class="grid" id="plGrid"></div>
+      </div>
+      <div id="plDetail" class="hidden"></div>
+    </section>
+  </main>
+
+  <!-- ===== Mini lecteur (toujours visible sauf sur le lecteur) ===== -->
+  <div class="mini">
+    <div class="mini__bar"><div class="bar__fill"></div></div>
+    <div class="mini__info" data-open-player tabindex="0" role="button" aria-label="Ouvrir le lecteur">
+      <div class="mini__cover" id="mCover"></div>
+      <div class="mini__text"><span id="mTitle" class="song-row__title"></span><span id="mArtist" class="song-row__artist"></span></div>
+    </div>
+    <button class="btn btn--icon hide-m" id="mPrev" aria-label="Précédent"><span data-icon="prev"></span></button>
+    <button class="btn btn--icon btn--play" data-toggle-play aria-label="Lecture"></button>
+    <button class="btn btn--icon" id="mNext" aria-label="Suivant"><span data-icon="next"></span></button>
+  </div>
+
+  <!-- ===== Barre d'onglets (mobile) ===== -->
+  <nav class="tabbar" aria-label="Navigation mobile">
+    <a class="tabbar__item" data-nav="accueil" href="#accueil"><span data-icon="home"></span>Accueil</a>
+    <a class="tabbar__item" data-nav="recherche" href="#recherche"><span data-icon="search"></span>Recherche</a>
+    <a class="tabbar__item" data-nav="bibliotheque" href="#bibliotheque"><span data-icon="library"></span>Bibliothèque</a>
+    <a class="tabbar__item" data-nav="playlists" href="#playlists"><span data-icon="playlist"></span>Playlists</a>
+  </nav>
+
+  <!-- ===== Fenêtre : créer une playlist ===== -->
+  <div class="overlay hidden" id="modal">
+    <form class="dialog" id="modalForm" novalidate>
+      <h2>Créer une playlist</h2>
+      <label class="field">Nom<input id="plName" type="text" maxlength="40" placeholder="Ma playlist"></label>
+      <label class="field">Description<textarea id="plDesc" rows="3" maxlength="120" placeholder="Facultatif"></textarea></label>
+      <p class="error" id="modalErr" role="alert"></p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-close>Annuler</button>
+        <button type="submit" class="btn btn--primary">Créer</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== Fenêtre : choisir une playlist ===== -->
+  <div class="overlay hidden" id="chooser">
+    <div class="dialog">
+      <h2>Ajouter à une playlist</h2>
+      <div id="chooserList" class="songlist"></div>
+      <div class="dialog__actions"><button class="btn btn--secondary" data-close>Fermer</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Ordre important : data.js avant script.js -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
